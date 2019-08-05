@@ -1,0 +1,28 @@
+=>Example 1:
+	APK: 16f60a8f6c514d9d7b58bf57344db301492a87e161f65fb8d9d02606db3bb106 (KicoBotnet)
+	Permission: android.permission.READ_SMS 
+	URI: content://sms
+	Permission Package Name: android.content.ContentResolver
+	
+	Full Class Name: com.example.kico.botnet.MyService
+	Method Signature:  public void refreshSmsInbox() 
+
+=>Example 2: 
+	APK: 0889844A5F2D5D4118C699A53CBA181735B5133871C4C506762272E129E54288 (Androzoo)
+	Permission: android.permission.READ_SMS 
+	URI: content://sms
+	Permission Package Name: android.content.ContentResolver
+	
+	Full Class Name: com.alipay.android.app.util.SmsReader
+	Method Signature: public java.lang.String readSms(android.content.Context, java.lang.String[], java.lang.String, int, long)
+
+
+=>Example 3: 
+	APK:1011390F5F7E05DF25DC8024175D771764994D8B4667575E983A4A0CE652FE86 (Androzoo
+	Permission: android.permission.READ_CALENDAR
+	URI: content://com.android.calendar
+	Permission Package Name: android.content.ContentResolver
+
+	Full Class Name: com.tripbuilder.utility.TBDateUtils
+	Method Signature: public static int insertPersonalToCalendar(android.content.Context, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+
